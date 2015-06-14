@@ -32,11 +32,11 @@ module Codebreaker
     		key = answer[key]
     	end
 
-    	secret.each_value do |value|
-    		if attempt.has_value?(value)
+    	attempt.each_value do |value|
+    		if secret.has_value?(value)
     			i += 10
     			answer[i] = "-"
-    		end
+      		end
     	end
     	
     	result = ""
@@ -46,8 +46,14 @@ module Codebreaker
     	end
 
     	return result
+    end
 
-
+    def hint
+      return @hint if @hint
+      result = "****"
+      num = rand(0..3)
+      result[num] = @secret_code[num].to_s
+      return @hint = result
     end
   end
 end

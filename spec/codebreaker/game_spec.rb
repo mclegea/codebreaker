@@ -50,14 +50,61 @@ module Codebreaker
       	expect(subject.instance_variable_get(:@attempts)).to eq(0)
       end
 
-      it "1234" do
-      	expect(subject.guess("6566")).to eq("++")
+      examples = {
+      	"6463" => "++++",
+      	"6453" => "+++",
+      	"4663" => "++--",
+      	"4636" => "----",
+      	"3463" => "+++",
+      	"1253" => "+",
+      	"1626" => "--",
+      	"1425" => "+",
+      	"1245" => "-",
+      	"1234" => "--",
+      	"3625" => "--",
+      	"1625" => "-",
+      	"5453" => "++",
+      	"3333" => "+",
+      	"6666" => "++",
+      	"4444" => "+",
+      	"1362" => "+-",
+      }
+
+      examples.each do |k,v|
+        it "returns #{v} when #{k}" do
+          expect(subject.guess k.to_s).to eq v
+        end
       end
+    end
+
+
+    context "#hint" do
+    	before do
+        subject.instance_variable_set(:@secret_code, [6,4,6,3])
+      end
+
+      it "returns right hint" do
+        allow(subject).to receive(:rand).and_return(0)
+        expect(subject.hint).to eq "6***"
+      end
+
+      it "sets correct @hint" do
+        allow(subject).to receive(:rand).and_return(3)
+        subject.hint
+        expect(subject.instance_variable_get(:@hint)).to eq "***3"
+      end
+
+      it "returns @hint if not nil" do
+        subject.instance_variable_set(:@hint, "*4**")
+        expect(subject.hint).to eq "*4**"
+      end      
+
+    end
 
 
       #a = (1..6).to_a
       #permutations = a.repeated_permutation(4).to_a
 
-    end
+    
   end
 end
