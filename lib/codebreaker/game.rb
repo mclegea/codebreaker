@@ -1,6 +1,6 @@
 module Codebreaker
   class Game
-     
+
     def initialize
       @secret_code = 4.times.map{rand(1..6)}
       @attempts = 10
