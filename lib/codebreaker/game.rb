@@ -24,13 +24,14 @@ module Codebreaker
     	secret = Hash[(0...@secret_code.size).zip(@secret_code)]
     	attempt = Hash[(0...attempt_code.size).zip(attempt_code)]
 
-    	attempt.delete_if do |key,value|
-    		key = answer[key]
+    	vars = [attempt, secret]
+
+    	vars.each do |var|
+    		var.delete_if do |key,value|
+    			key = answer[key]
+    		end
     	end
 
-    	secret.delete_if do |key,value|
-    		key = answer[key]
-    	end
 
     	attempt.each_value do |value|
     		if secret.has_value?(value)
